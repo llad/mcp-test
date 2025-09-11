@@ -1,15 +1,24 @@
-import os
-from flask import Flask, request, jsonify, abort
+from __future__ import annotations
 
-app = Flask(__name__)
-API_KEY = os.environ.get("MCP_API_KEY", "secret-key")
+import httpx
+from fastmcp import FastMCP
 
-@app.route("/ping")
-def ping():
-    key = request.headers.get("X-API-Key")
-    if key != API_KEY:
-        abort(401)
-    return jsonify({"message": "pong"})
+server = FastMCP()
+
+
+@server.tool()
+def ping() -> str:
+    """Return a simple pong response."""
+    return "pong"
+
+
+@server.tool()
+def github_zen() -> str:
+    """Fetch a random message from the GitHub Zen API."""
+    response = httpx.get("https://api.github.com/zen", timeout=10)
+    response.raise_for_status()
+    return response.text.strip()
+
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
+    server.run()
