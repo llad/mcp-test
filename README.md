@@ -7,6 +7,7 @@ This project aims to create a simple MCP (Multi-Component Platform) server with 
 1. **MCP Server**
    - Build a minimal MCP server exposing a public API.
    - Focus on clarity and ease of understanding for each component.
+   - Allow users to submit a URL to a GICS CSV file and process its contents.
 
 2. **Jupyter Notebook Client**
    - Create a Jupyter notebook that connects to the MCP server.
